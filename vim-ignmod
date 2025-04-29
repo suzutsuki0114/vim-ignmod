@@ -1,0 +1,25 @@
+#!/bin/bash
+# shellcheck disable=SC2068
+
+getMode () {
+  # get info of the file
+  la=$(ls -la ${@})
+
+  mode="${la:1:3}"
+}
+
+main () {
+  getMode ${@}
+
+  # get the mode
+  chmod u=rwx ${@}
+
+  # start vim
+  vim ${@}
+
+  # restore the mode
+  chmod u-rwx ${@}
+  chmod u+${mode//-} ${@}
+}
+
+main ${@}
